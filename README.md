@@ -1,4 +1,4 @@
-<p align="center">
+<p align="left">
 Codificação consumindo filas com Consumer e Producer funcionando perfeitamente através de uma imagem de Docker do RabbitMQ e NodeJS.
 </p>
 <p align="center">
