@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+  nestjs-rabbitmq:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/home/node/app'
+    entrypoint: ./.docker/entrypoint.sh
+    environment:
+      - NODE_ENV=development
+      - TZ=America/Sao_Paulo
+    ports:
+      - '3001:3001'
+      - '8229:9229'
+    networks:
+      - nestjs-rabbitmq
+
+  rabbitmq:
+    build:
+      context: ./.docker/rabbitmq
+      dockerfile: Dockerfile
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_ERLANG_COOKIE='ms_cluster_rabbitmq'
+      - TZ=America/Sao_Paulo
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    networks:
+      - nestjs-rabbitmq
+
+networks:
+  nestjs-rabbitmq:
+    driver: bridge
